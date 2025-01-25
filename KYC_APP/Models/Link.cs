@@ -1,6 +1,6 @@
 ﻿namespace KYC_APP.Models
 {
-    public class UserLink
+    public class Link
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Username { get; set; }
@@ -9,7 +9,6 @@
         public int Clicks { get; set; } = 0;
 
         public bool IsExpired => ExpiryTime.HasValue && DateTime.UtcNow > ExpiryTime;
-        public bool IsClicked => Clicks >= MaxClicks;
+        public bool IsUsed => Clicks >= MaxClicks;
     }
-
 }

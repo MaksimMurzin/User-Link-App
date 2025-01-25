@@ -6,13 +6,13 @@ namespace KYC_APP.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : Controller
+    public class UserLinkController : ControllerBase
     {
-        private readonly IUserLinkService _service;
+        private readonly IUserLinkService _linkService;
 
-        public UserController(IUserLinkService service)
+        public UserLinkController(IUserLinkService linkService)
         {
-            _service = service;
+            _linkService = linkService;
         }
 
         [HttpPost]
@@ -23,22 +23,22 @@ namespace KYC_APP.Controllers
                 return BadRequest("Invalid username.");
             }
 
-            var link = _service.GenerateLink(request.Username, request.Expiry, request.MaxClicks);
-            return Ok(new { Url = Url.Action("Visit", "Link", new { id = link.Id }, Request.Scheme) });
+            var link = _linkService.CreateLink(request.Username, request.Expiry, request.MaxClicks);
+            return Ok(new { Url = Url.Action("Visit", "UserLink", new { id = link.Id }, Request.Scheme) });
         }
 
         [HttpGet("{id:guid}")]
         public IActionResult Visit(Guid id)
         {
-            var link = _service.GetUserLink(id);
+            var link = _linkService.GetLink(id);
 
-            if (link == null || link.IsExpired || link.IsClicked)
+            if (link == null || link.IsExpired || link.IsUsed)
             {
                 return Content("There are no secrets here.");
             }
 
             link.Clicks++;
-            _service.UpdateLink(link);
+            _linkService.UpdateLink(link);
 
             return Content($"You have found the secret, {link.Username}!");
         }

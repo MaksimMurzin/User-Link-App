@@ -1,7 +1,13 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@page
+
+@if (string.IsNullOrEmpty(ViewBag.GeneratedLink))
+{ 
+    <p>No link was generated. Please go back and try again.</p> 
+} 
+else 
+{  
+    <h2>User: @ViewBag.Username</h2>
     <p>Here is your generated link:</p>
-    <a href="@Model">@Model</a>
-}
+    <a href="@ViewBag.GeneratedLink">@ViewBag.GeneratedLink</a>
+}  
+

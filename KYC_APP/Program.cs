@@ -10,7 +10,8 @@ namespace KYC_APP
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddSingleton<IUserLinkService, UserLinkService>();
+            builder.Services.AddSingleton<IUserLinkService,UserLinkService>();
+            builder.Services.AddMemoryCache();
             builder.Services.AddSwaggerGen();
             var app = builder.Build();
 

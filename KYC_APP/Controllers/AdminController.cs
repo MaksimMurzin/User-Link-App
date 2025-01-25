@@ -1,30 +1,22 @@
-﻿using KYC_APP.Services;
+﻿using KYC_APP.Models;
+using KYC_APP.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace KYC_APP.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class AdminController : Controller
     {
-        private readonly IUserLinkService _service;
+        private readonly IUserLinkService _linkService;
 
-        public AdminController(IUserLinkService service)
+        public AdminController(IUserLinkService linkService)
         {
-            _service = service;
+            _linkService = linkService;
         }
 
-        [HttpPost("generate")]
-        public IActionResult GenerateLink([FromBody] string username)
+        public IActionResult Index()
         {
-            if (string.IsNullOrWhiteSpace(username) || username.Length > 50 || !username.All(char.IsLetterOrDigit))
-            {
-                return BadRequest("Invalid username.");
-            }
-
-            var link = _service.GenerateLink(username);
-            var url = Url.Action("Visit", "Link", new { id = link.Id }, Request.Scheme);
-            return Ok(url);
+            return View();
         }
 
         [HttpPost]
@@ -35,17 +27,12 @@ namespace KYC_APP.Controllers
                 return BadRequest("Invalid username.");
             }
 
-            var link = _service.GenerateLink(username);
-            var url = Url.Action("Visit", "Link", new { id = link.Id }, Request.Scheme);
-            return View("Generated", url);
-        }
+            var link = _linkService.CreateLink(username);
 
-        // sane check, needs to be deleted
-        [HttpGet]
-        public IActionResult Get() 
-        {
-            return Ok("Everything is sane");
+            // for some weird reason model was not working so I used viewbag
+            ViewBag.Username = username;
+            ViewBag.GeneratedLink = Url.Action("Visit", "UserLink", new { id = link.Id }, Request.Scheme);
+            return View("Generated");
         }
     }
-
 }

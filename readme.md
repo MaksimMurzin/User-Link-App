@@ -1,4 +1,5 @@
-This is a simple MVC app with 1 view (Admin) and 2 Controllers, Admin (MVC Style) and UserLink (API controller). Generation of Links is done via UserLink Service which is injected using DI in the Program.cs file. I decided to go with in-memory cache where the link is stored via its GUID. There are a couple of pros and cons to this.
+This is a simple MVC app with 1 view (Admin) and 2 Controllers, Admin (MVC Style) and UserLink (API controller). Generation of Links is done via UserLink Service which is injected using DI in the Program.cs file.
+I decided to go with in-memory cache where the link is stored via its GUID. There are a couple of pros and cons to this.
 
 First, the pros:
 

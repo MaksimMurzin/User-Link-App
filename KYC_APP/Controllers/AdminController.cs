@@ -1,7 +1,5 @@
-﻿using KYC_APP.Models;
-using KYC_APP.Services;
+﻿using KYC_APP.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace KYC_APP.Controllers
 {
